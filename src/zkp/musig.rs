@@ -12,12 +12,12 @@ use core::fmt;
 ///! usage can be found in [Rust-musig.md](USAGE.md).
 use {core, std};
 
-use ffi::{self, CPtr};
+use crate::ffi::{self, CPtr};
 use secp256k1::Parity;
-use ZERO_TWEAK;
-use {schnorr, KeyPair, XOnlyPublicKey};
-use {Message, PublicKey, Secp256k1, SecretKey, Tweak};
-use {Signing, Verification};
+use crate::ZERO_TWEAK;
+use crate::{schnorr, KeyPair, XOnlyPublicKey};
+use crate::{Message, PublicKey, Secp256k1, SecretKey, Tweak};
+use crate::{Signing, Verification};
 
 ///  Data structure containing auxiliary data generated in `pubkey_agg` and
 ///  required for `session_*_init`.
@@ -1725,7 +1725,7 @@ impl fmt::Display for MusigSignError {
 mod tests {
     use super::*;
     use rand::{thread_rng, RngCore};
-    use {KeyPair, XOnlyPublicKey};
+    use crate::{KeyPair, XOnlyPublicKey};
 
     #[test]
     fn test_key_agg_cache() {
@@ -1733,8 +1733,8 @@ mod tests {
         let mut sec_bytes = [0; 32];
         thread_rng().fill_bytes(&mut sec_bytes);
         let sec_key = SecretKey::from_slice(&sec_bytes).unwrap();
-        let keypair = KeyPair::from_secret_key(&secp, sec_key);
-        let pub_key = XOnlyPublicKey::from_keypair(&keypair);
+        let keypair = KeyPair::from_secret_key(&secp, &sec_key);
+        let (pub_key, _parity) = XOnlyPublicKey::from_keypair(&keypair);
 
         let _key_agg_cache = MusigKeyAggCache::new(&secp, &[pub_key, pub_key]);
     }
@@ -1744,8 +1744,8 @@ mod tests {
         let secp = Secp256k1::new();
         let sec_bytes = [1; 32];
         let sec_key = SecretKey::from_slice(&sec_bytes).unwrap();
-        let keypair = KeyPair::from_secret_key(&secp, sec_key);
-        let pub_key = XOnlyPublicKey::from_keypair(&keypair);
+        let keypair = KeyPair::from_secret_key(&secp, &sec_key);
+        let (pub_key, _parity) = XOnlyPublicKey::from_keypair(&keypair);
 
         let key_agg_cache = MusigKeyAggCache::new(&secp, &[pub_key, pub_key]);
         let msg = Message::from_slice(&[3; 32]).unwrap();
