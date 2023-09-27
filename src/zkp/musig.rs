@@ -13,11 +13,11 @@ use core::fmt;
 use {core, std};
 
 use crate::ffi::{self, CPtr};
-use secp256k1::Parity;
 use crate::ZERO_TWEAK;
 use crate::{schnorr, KeyPair, XOnlyPublicKey};
 use crate::{Message, PublicKey, Secp256k1, SecretKey, Tweak};
 use crate::{Signing, Verification};
+use secp256k1::Parity;
 
 ///  Data structure containing auxiliary data generated in `pubkey_agg` and
 ///  required for `session_*_init`.
@@ -77,19 +77,19 @@ impl MusigKeyAggCache {
     /// # }
     /// ```
     pub fn new<C: Verification>(secp: &Secp256k1<C>, pubkeys: &[XOnlyPublicKey]) -> Self {
-        let cx = *secp.ctx();
-        let xonly_ptrs = pubkeys.iter().map(|k| k.as_ptr()).collect::<Vec<_>>();
+        let cx = secp.ctx();
+        let xonly_ptrs = pubkeys.iter().map(|k| k.as_c_ptr()).collect::<Vec<_>>();
         let mut key_agg_cache = ffi::MusigKeyaggCache::new();
 
         unsafe {
             let mut agg_pk = XOnlyPublicKey::from(ffi::XOnlyPublicKey::new());
             if ffi::secp256k1_musig_pubkey_agg(
-                cx,
+                cx.as_ptr(),
                 // FIXME: passing null pointer to ScratchSpace uses less efficient algorithm
                 // Need scratch_space_{create,destroy} exposed in public C API to safely handle
                 // memory
                 core::ptr::null_mut(),
-                agg_pk.as_mut_ptr(),
+                agg_pk.as_mut_c_ptr(),
                 &mut key_agg_cache,
                 xonly_ptrs.as_ptr() as *const *const _,
                 xonly_ptrs.len(),
@@ -151,14 +151,14 @@ impl MusigKeyAggCache {
         secp: &Secp256k1<C>,
         tweak: SecretKey,
     ) -> Result<PublicKey, MusigTweakErr> {
-        let cx = *secp.ctx();
+        let cx = secp.ctx();
         unsafe {
             let mut out = PublicKey::from(ffi::PublicKey::new());
             if ffi::secp256k1_musig_pubkey_ec_tweak_add(
-                cx,
-                out.as_mut_ptr(),
+                cx.as_ptr(),
+                out.as_mut_c_ptr(),
                 self.as_mut_ptr(),
-                tweak.as_ptr(),
+                tweak.as_c_ptr(),
             ) == 0
             {
                 Err(MusigTweakErr::InvalidTweak)
@@ -210,14 +210,14 @@ impl MusigKeyAggCache {
         secp: &Secp256k1<C>,
         tweak: SecretKey,
     ) -> Result<XOnlyPublicKey, MusigTweakErr> {
-        let cx = *secp.ctx();
+        let cx = secp.ctx();
         unsafe {
             let mut out = XOnlyPublicKey::from(ffi::XOnlyPublicKey::new());
             if ffi::secp256k1_musig_pubkey_xonly_tweak_add(
-                cx,
-                out.as_mut_ptr(),
+                cx.as_ptr(),
+                out.as_mut_c_ptr(),
                 self.as_mut_ptr(),
-                tweak.as_ptr(),
+                tweak.as_c_ptr(),
             ) == 0
             {
                 Err(MusigTweakErr::InvalidTweak)
@@ -412,18 +412,18 @@ pub fn new_musig_nonce_pair<C: Signing>(
     msg: Option<Message>,
     extra_rand: Option<[u8; 32]>,
 ) -> Result<(MusigSecNonce, MusigPubNonce), MusigNonceGenError> {
-    let cx = *secp.ctx();
+    let cx = secp.ctx();
     let extra_ptr = extra_rand
         .as_ref()
         .map(|e| e.as_ptr())
         .unwrap_or(core::ptr::null());
     let sk_ptr = sec_key
         .as_ref()
-        .map(|e| e.as_ptr())
+        .map(|e| e.as_c_ptr())
         .unwrap_or(core::ptr::null());
     let msg_ptr = msg
         .as_ref()
-        .map(|ref e| e.as_ptr())
+        .map(|ref e| e.as_c_ptr())
         .unwrap_or(core::ptr::null());
     let cache_ptr = key_agg_cache
         .map(|e| e.as_ptr())
@@ -432,7 +432,7 @@ pub fn new_musig_nonce_pair<C: Signing>(
         let mut sec_nonce = MusigSecNonce(ffi::MusigSecNonce::new());
         let mut pub_nonce = MusigPubNonce(ffi::MusigPubNonce::new());
         if ffi::secp256k1_musig_nonce_gen(
-            cx,
+            cx.as_ptr(),
             sec_nonce.as_mut_ptr(),
             pub_nonce.as_mut_ptr(),
             (&session_id).as_ref().as_ptr(),
@@ -763,9 +763,9 @@ pub fn adapt(
         let mut sig = pre_sig;
         if ffi::secp256k1_musig_adapt(
             ffi::secp256k1_context_no_precomp,
-            sig.as_mut_ptr(),
-            pre_sig.as_ptr(),
-            sec_adaptor.as_ptr(),
+            sig.as_mut_c_ptr(),
+            pre_sig.as_c_ptr(),
+            sec_adaptor.as_c_ptr(),
             nonce_parity.to_i32(),
         ) == 0
         {
@@ -884,9 +884,9 @@ pub fn extract_adaptor(
         let mut secret = ZERO_TWEAK;
         if ffi::secp256k1_musig_extract_adaptor(
             ffi::secp256k1_context_no_precomp,
-            secret.as_mut_ptr(),
-            sig.as_ptr(),
-            pre_sig.as_ptr(),
+            secret.as_mut_c_ptr(),
+            sig.as_c_ptr(),
+            pre_sig.as_c_ptr(),
             nonce_parity.to_i32(),
         ) == 0
         {
@@ -1125,7 +1125,7 @@ impl MusigAggNonce {
         let nonce_ptrs = nonces.iter().map(|n| n.as_ptr()).collect::<Vec<_>>();
         unsafe {
             if ffi::secp256k1_musig_nonce_agg(
-                *secp.ctx(),
+                secp.ctx().as_ptr(),
                 aggnonce.as_mut_ptr(),
                 nonce_ptrs.as_ptr(),
                 nonce_ptrs.len(),
@@ -1331,15 +1331,15 @@ impl MusigSession {
     ) -> Self {
         let mut session = MusigSession(ffi::MusigSession::new());
         let adaptor_ptr = match adaptor {
-            Some(a) => a.as_ptr(),
+            Some(a) => a.as_c_ptr(),
             None => core::ptr::null(),
         };
         unsafe {
             if ffi::secp256k1_musig_nonce_process(
-                *secp.ctx(),
+                secp.ctx().as_ptr(),
                 session.as_mut_ptr(),
                 agg_nonce.as_ptr(),
-                msg.as_ptr(),
+                msg.as_c_ptr(),
                 key_agg_cache.as_ptr(),
                 adaptor_ptr,
             ) == 0
@@ -1432,10 +1432,10 @@ impl MusigSession {
         unsafe {
             let mut partial_sig = MusigPartialSignature(ffi::MusigPartialSignature::new());
             if ffi::secp256k1_musig_partial_sign(
-                *secp.ctx(),
+                secp.ctx().as_ptr(),
                 partial_sig.as_mut_ptr(),
                 secnonce.as_mut_ptr(),
-                keypair.as_ptr(),
+                keypair.as_c_ptr(),
                 key_agg_cache.as_ptr(),
                 self.as_ptr(),
             ) == 0
@@ -1535,13 +1535,13 @@ impl MusigSession {
         pub_nonce: MusigPubNonce,
         pub_key: XOnlyPublicKey,
     ) -> bool {
-        let cx = *secp.ctx();
+        let cx = secp.ctx();
         unsafe {
             ffi::secp256k1_musig_partial_sig_verify(
-                cx,
+                cx.as_ptr(),
                 partial_sig.as_ptr(),
                 pub_nonce.as_ptr(),
-                pub_key.as_ptr(),
+                pub_key.as_c_ptr(),
                 key_agg_cache.as_ptr(),
                 self.as_ptr(),
             ) == 1
@@ -1724,8 +1724,8 @@ impl fmt::Display for MusigSignError {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rand::{thread_rng, RngCore};
     use crate::{KeyPair, XOnlyPublicKey};
+    use rand::{thread_rng, RngCore};
 
     #[test]
     fn test_key_agg_cache() {

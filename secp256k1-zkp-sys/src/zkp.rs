@@ -354,10 +354,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-<<<<<<< HEAD
-        link_name = "rustsecp256k1zkp_v0_8_0_whitelist_signature_serialize"
-=======
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_pubkey_agg"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_pubkey_agg"
     )]
     pub fn secp256k1_musig_pubkey_agg(
         cx: *const Context,
@@ -370,8 +367,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_whitelist_signature_serialize"
->>>>>>> 7d2d2a8 (secp256k1-zkp-sys: Add Rust FFI for Musig2 module)
+        link_name = "rustsecp256k1zkp_v0_8_0_whitelist_signature_serialize"
     )]
     pub fn secp256k1_whitelist_signature_serialize(
         ctx: *const Context,
@@ -382,10 +378,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-<<<<<<< HEAD
-        link_name = "rustsecp256k1zkp_v0_8_0_whitelist_sign"
-=======
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_pubkey_ec_tweak_add"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_pubkey_ec_tweak_add"
     )]
     pub fn secp256k1_musig_pubkey_ec_tweak_add(
         cx: *const Context,
@@ -396,7 +389,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_pubkey_xonly_tweak_add"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_pubkey_xonly_tweak_add"
     )]
     pub fn secp256k1_musig_pubkey_xonly_tweak_add(
         cx: *const Context,
@@ -407,8 +400,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_whitelist_sign"
->>>>>>> 7d2d2a8 (secp256k1-zkp-sys: Add Rust FFI for Musig2 module)
+        link_name = "rustsecp256k1zkp_v0_8_0_whitelist_sign"
     )]
     pub fn secp256k1_whitelist_sign(
         ctx: *const Context,
@@ -424,10 +416,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-<<<<<<< HEAD
-        link_name = "rustsecp256k1zkp_v0_8_0_whitelist_verify"
-=======
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_nonce_gen"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_nonce_gen"
     )]
     pub fn secp256k1_musig_nonce_gen(
         cx: *const Context,
@@ -442,8 +431,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_whitelist_verify"
->>>>>>> 7d2d2a8 (secp256k1-zkp-sys: Add Rust FFI for Musig2 module)
+        link_name = "rustsecp256k1zkp_v0_8_0_whitelist_verify"
     )]
     pub fn secp256k1_whitelist_verify(
         ctx: *const Context,
@@ -456,7 +444,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_nonce_agg"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_nonce_agg"
     )]
     pub fn secp256k1_musig_nonce_agg(
         cx: *const Context,
@@ -467,7 +455,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_nonce_process"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_nonce_process"
     )]
     pub fn secp256k1_musig_nonce_process(
         cx: *const Context,
@@ -480,7 +468,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_pubnonce_serialize"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_pubnonce_serialize"
     )]
     pub fn secp256k1_musig_pubnonce_serialize(
         cx: *const Context,
@@ -490,7 +478,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_pubnonce_parse"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_pubnonce_parse"
     )]
     pub fn secp256k1_musig_pubnonce_parse(
         cx: *const Context,
@@ -500,7 +488,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_aggnonce_serialize"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_aggnonce_serialize"
     )]
     pub fn secp256k1_musig_aggnonce_serialize(
         cx: *const Context,
@@ -510,7 +498,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_aggnonce_parse"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_aggnonce_parse"
     )]
     pub fn secp256k1_musig_aggnonce_parse(
         cx: *const Context,
@@ -520,7 +508,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_partial_sig_serialize"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_partial_sig_serialize"
     )]
     pub fn secp256k1_musig_partial_sig_serialize(
         cx: *const Context,
@@ -530,7 +518,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_partial_sig_parse"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_partial_sig_parse"
     )]
     pub fn secp256k1_musig_partial_sig_parse(
         cx: *const Context,
@@ -540,7 +528,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_partial_sign"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_partial_sign"
     )]
     pub fn secp256k1_musig_partial_sign(
         cx: *const Context,
@@ -553,7 +541,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_partial_sig_verify"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_partial_sig_verify"
     )]
     pub fn secp256k1_musig_partial_sig_verify(
         cx: *const Context,
@@ -566,7 +554,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_partial_sig_agg"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_partial_sig_agg"
     )]
     pub fn secp256k1_musig_partial_sig_agg(
         cx: *const Context,
@@ -578,7 +566,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_nonce_parity"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_nonce_parity"
     )]
     pub fn secp256k1_musig_nonce_parity(
         cx: *const Context,
@@ -588,7 +576,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_adapt"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_adapt"
     )]
     pub fn secp256k1_musig_adapt(
         cx: *const Context,
@@ -600,7 +588,7 @@ extern "C" {
 
     #[cfg_attr(
         not(feature = "external-symbols"),
-        link_name = "rustsecp256k1zkp_v0_7_0_musig_extract_adaptor"
+        link_name = "rustsecp256k1zkp_v0_8_0_musig_extract_adaptor"
     )]
     pub fn secp256k1_musig_extract_adaptor(
         cx: *const Context,
@@ -865,7 +853,6 @@ impl EcdsaAdaptorSignature {
     }
 }
 
-<<<<<<< HEAD
 #[cfg(not(fuzzing))]
 impl PartialEq for EcdsaAdaptorSignature {
     fn eq(&self, other: &Self) -> bool {
@@ -875,7 +862,7 @@ impl PartialEq for EcdsaAdaptorSignature {
 
 #[cfg(not(fuzzing))]
 impl Eq for EcdsaAdaptorSignature {}
-=======
+
 #[repr(C)]
 pub struct ScratchSpace(c_int);
 
@@ -887,6 +874,7 @@ pub const MUSIG_SESSION_LEN: usize = 133;
 pub const MUSIG_PART_SIG_LEN: usize = 36;
 
 #[repr(C)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct MusigKeyaggCache([c_uchar; MUSIG_KEYAGG_LEN]);
 impl_array_newtype!(MusigKeyaggCache, c_uchar, MUSIG_KEYAGG_LEN);
 impl_raw_debug!(MusigKeyaggCache);
@@ -898,6 +886,7 @@ impl MusigKeyaggCache {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct MusigSecNonce([c_uchar; MUSIG_SECNONCE_LEN]);
 impl_array_newtype!(MusigSecNonce, c_uchar, MUSIG_SECNONCE_LEN);
 impl_raw_debug!(MusigSecNonce);
@@ -909,6 +898,7 @@ impl MusigSecNonce {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct MusigPubNonce([c_uchar; MUSIG_PUBNONCE_LEN]);
 impl_array_newtype!(MusigPubNonce, c_uchar, MUSIG_PUBNONCE_LEN);
 impl_raw_debug!(MusigPubNonce);
@@ -920,6 +910,7 @@ impl MusigPubNonce {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct MusigAggNonce([c_uchar; MUSIG_AGGNONCE_LEN]);
 impl_array_newtype!(MusigAggNonce, c_uchar, MUSIG_AGGNONCE_LEN);
 impl_raw_debug!(MusigAggNonce);
@@ -931,6 +922,7 @@ impl MusigAggNonce {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct MusigSession([c_uchar; MUSIG_SESSION_LEN]);
 impl_array_newtype!(MusigSession, c_uchar, MUSIG_SESSION_LEN);
 impl_raw_debug!(MusigSession);
@@ -942,6 +934,7 @@ impl MusigSession {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct MusigPartialSignature([c_uchar; MUSIG_PART_SIG_LEN]);
 impl_array_newtype!(MusigPartialSignature, c_uchar, MUSIG_PART_SIG_LEN);
 impl_raw_debug!(MusigPartialSignature);
@@ -951,4 +944,3 @@ impl MusigPartialSignature {
         MusigPartialSignature([0; MUSIG_PART_SIG_LEN])
     }
 }
->>>>>>> 7d2d2a8 (secp256k1-zkp-sys: Add Rust FFI for Musig2 module)
