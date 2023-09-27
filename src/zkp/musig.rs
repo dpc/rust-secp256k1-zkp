@@ -1721,7 +1721,7 @@ impl fmt::Display for MusigSignError {
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "rand-std"))]
 mod tests {
     use super::*;
     use crate::{KeyPair, XOnlyPublicKey};
